@@ -305,7 +305,7 @@ class SearchDocument(BaseSearchDocument):
     model   = search_fields.ModelField()
     site_id = search_fields.SiteField()
     url     = search_fields.UrlField()
-    text    = search_fields.SolrTextField(multi_valued=True)    
+    text    = search_fields.SolrTextField(multi_valued=True, term_vectors=True)    
     
     class Media:
         template = 'solango/default_document.html'

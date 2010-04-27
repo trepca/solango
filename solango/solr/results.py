@@ -133,7 +133,6 @@ class SelectResults(Results):
         highlighting information.  See Results.__init__(self, xml).
         """
         Results.__init__(self, xml)
-        
         (self.documents, self.facets, self.highlighting) = ([], [], {})
         
         self._parse_results()

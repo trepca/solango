@@ -41,7 +41,6 @@ class BaseIndexer(object):
         
         to_index = []
         to_delete = []
-        
         if batch_size is None:
             batch_size = getattr(solango.settings,"SOLR_BATCH_INDEX_SIZE", 10)
         

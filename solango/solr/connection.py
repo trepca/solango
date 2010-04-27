@@ -149,7 +149,6 @@ class SearchWrapper(object):
             data = content.encode("utf-8", "replace")
         else:
             data = None
-        
         (req, res) = (urllib2.Request(url, data), None)
         
         req.add_header("Content-type", "text/xml; charset=utf-8")
@@ -157,7 +156,7 @@ class SearchWrapper(object):
         try:
             res = urllib2.urlopen(req).read()
         except StandardError, e:
-            logger.error(e)
+            logger.exception(e)
         return res
     
     def update(self, content):
@@ -183,14 +182,13 @@ class SearchWrapper(object):
         """
         
         if args and isinstance(args[0], Query):
-            query= args[0]
+            query = args[0]
         else:
             query = Query(*args, **kwargs)
 
         # Submits the response to solr
         request_url = self.select_url + "?" + query.url
         response = self.issue_request(request_url)
-        
         try:
             return results.SelectResults(response)
         except (ValueError, results.SolrException), e:

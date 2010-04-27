@@ -40,12 +40,12 @@ class Field(object):
     creation_counter = 0
     
     def __init__(self, name='', value=None, required=False, copy=False, dest="text", dynamic=False, indexed=True, stored=True,
-                multi_valued=False, omit_norms=False, boost=None, extra_attrs={}):
+                multi_valued=False, omit_norms=False, boost=None, term_vectors=False, extra_attrs={}):
         self.name = smart_unicode(name)
         
         self.value,  self.copy, self.dynamic, self.indexed = value, copy, dynamic, indexed
         self.multi_valued, self.stored, self.extra_attrs = multi_valued, stored, extra_attrs
-
+        self.term_vectors = term_vectors
         if isinstance(dest, basestring):
             dest = [dest]
 
@@ -114,9 +114,9 @@ class Field(object):
         """
         Used by the command to generate the solr config document
         """
-        return '<field name="%s" type="%s" indexed="%s" stored="%s" omitNorms="%s" required="%s" multiValued="%s"/>' \
+        return '<field name="%s" type="%s" indexed="%s" stored="%s" omitNorms="%s" required="%s" multiValued="%s" termVectors="%s" />' \
             % (self.name, self.type, str(self.indexed).lower(), str(self.stored).lower(), \
-                   str(self.omit_norms).lower(), str(self.required).lower(), str(self.multi_valued).lower())
+                   str(self.omit_norms).lower(), str(self.required).lower(), str(self.multi_valued).lower(), str(self.term_vectors).lower())
         
     def _config_copy(self):
         pattern = '<copyField source="%s" dest="%%s"/>' % self.name
