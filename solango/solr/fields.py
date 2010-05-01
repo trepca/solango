@@ -264,7 +264,7 @@ class ModelField(CharField):
 
 class FloatField(Field):
     dynamic_suffix = "f"
-    type = "float"
+    type = "sfloat"
     
     def clean(self):
         if not isinstance(self.value, float):

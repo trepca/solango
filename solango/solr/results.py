@@ -81,7 +81,6 @@ class Results(object):
         """
         if not xml:
             raise ValueError, "Invalid or missing XML"
-        
         self._doc = minidom.parseString(xml)
         
         self._parse_header()
@@ -194,7 +193,14 @@ class SelectResults(Results):
 
         for facet in xmlutils.get_child_nodes(fields, "lst"):
             self.facets.append(Facet(facet))
-        
+
+        fields = xmlutils.get_child_node(facets, "lst", "facet_queries")
+
+        if fields:
+            print fields
+            self.facets.append(Facet(fields))
+
+            
         params = self.header.get('params', None)
         if params is not None:
             self.date_gap = params.get('facet.date.gap', '+1YEAR') # default to a 1 year gap

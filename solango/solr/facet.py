@@ -39,8 +39,8 @@ class FacetValue(object):
         """
         clean = self.value
         if " " in clean:
-            clean = '"%s"' % clean
-        return urllib.quote(clean)
+            clean = u'"%s"' % clean
+        return urllib.quote(clean.encode("utf-8"))
     
 class Facet(object):
     """
