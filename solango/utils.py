@@ -13,7 +13,7 @@ def get_base_url(request, exclude=[]):
         get = [(k,v.encode('utf-8')) for k,v in request.GET.items() if k not in exclude]
         return "%s?%s" % (request.path, urllib.urlencode(get))
     else:
-        return request.path
+        return request.path + "?" 
 
 def get_sort_links(request):
     """
@@ -57,8 +57,9 @@ def get_facets_links(request, results):
             'links'   : [],
             'current' : current_val
         }
-        
+        print "current_value for", facet.name, current_val
         previous_level = 0
+        active = False
         for value in facet.values:
             indent = False
             undent = False
@@ -76,8 +77,12 @@ def get_facets_links(request, results):
                     'href'   : "%s&%s=%s" % (base, facet.name, clean),
                     'active' : (current_val_quoted == clean)
                 })
+                if (current_val_quoted == clean):
+                    active = True
+                
                 previous_level = value.level
-    return facets
+        facets[facet.name]['links'].sort(key=lambda x:x['anchor'])
+    return facets.items()
 
 def create_schema_xml(raw=False):
     import solango

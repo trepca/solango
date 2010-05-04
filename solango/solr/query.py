@@ -43,6 +43,7 @@ class Facet(CleverDict):
         # expects a list of tuples. Facets shouldn't be built directly, only of queries
         # Standard Fields
         self.field = []
+        self.query = []
         self.queries = []
         CleverDict.__init__(self, *args, **kwargs)
 

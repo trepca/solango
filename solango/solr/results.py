@@ -195,9 +195,7 @@ class SelectResults(Results):
             self.facets.append(Facet(facet))
 
         fields = xmlutils.get_child_node(facets, "lst", "facet_queries")
-
         if fields:
-            print fields
             self.facets.append(Facet(fields))
 
             
