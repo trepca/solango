@@ -61,8 +61,8 @@ class SearchView(object):
         else:
             params['q'] = 'state:"P"'
         params.update(dict(per_page=40))
-        params.pop("x")
-        params.pop("y")
+        params.pop("x", None)
+        params.pop("y", None)
         paginator = SearchPaginator(params, request)
         facets = utils.get_facets_links(request, paginator.results)
         sort_links = utils.get_sort_links(request)
