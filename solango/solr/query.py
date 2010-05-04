@@ -219,6 +219,5 @@ class Query(dict):
             query += '&facet=true'
         if self.hl:
             query += '&hl=false'
-
         return query
     

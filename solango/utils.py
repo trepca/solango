@@ -46,24 +46,27 @@ def get_facets_links(request, results):
     """
     facets = {}
     for facet in results.facets:
+        if facet.name == "facet_queries":
+            facet.name = "price"
         base = get_base_url(request, ["page", facet.name])
         base_sep = "?" in base and "&" or "?"
         current_val = request.REQUEST.get(facet.name, None)
         current_val_quoted = current_val and urllib.quote(current_val) or None
-        
         facets[facet.name] = {
             'name'    : facet.name,
             'base'    : base,
             'links'   : [],
             'current' : current_val
         }
-        print "current_value for", facet.name, current_val
         previous_level = 0
         active = False
-        for value in facet.values:
+        for i, value in enumerate(facet.values):
             indent = False
             undent = False
-            clean = value.get_encoded_value()
+            if facet.name == "price":
+                clean = value.value.split(":",1)[1]
+            else:
+                clean = value.get_encoded_value()    
             if clean != '':
                 if previous_level > value.level:
                     undent = True
@@ -75,14 +78,18 @@ def get_facets_links(request, results):
                     'count'  : value.count,
                     'level'  : value.level,
                     'href'   : "%s&%s=%s" % (base, facet.name, clean),
-                    'active' : (current_val_quoted == clean)
+                    'active' : (current_val_quoted == clean),
+                    'index'  : i,
                 })
                 if (current_val_quoted == clean):
                     active = True
                 
                 previous_level = value.level
-        facets[facet.name]['links'].sort(key=lambda x:x['anchor'])
-    return facets.items()
+        if facet.name == "price":
+            facets[facet.name]['links'].sort(key=lambda x:int(x['index']))
+        else:
+            facets[facet.name]['links'].sort(key=lambda x:x['anchor'])
+    return sorted(facets.items(), key=lambda x:x[0])
 
 def create_schema_xml(raw=False):
     import solango

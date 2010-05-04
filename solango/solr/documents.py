@@ -285,6 +285,7 @@ class BaseSearchDocument(object):
         """
         Returns the model instance that the document refers to.
         """
+        return None
         if self.data_dict:
             model = get_model_from_key(self.data_dict['model'])
             id = self.data_dict['id'].split(settings.SEARCH_SEPARATOR)[2]

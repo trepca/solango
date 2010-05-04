@@ -58,7 +58,7 @@ class SearchView(object):
             params.update(form.cleaned_data)
         except:
             pass
-        params.update(dict(per_page=20, q='state:"P"'))
+        params.update(dict(per_page=40, q='state:"P"'))
         paginator = SearchPaginator(params, request)
         facets = utils.get_facets_links(request, paginator.results)
         sort_links = utils.get_sort_links(request)
