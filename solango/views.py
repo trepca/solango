@@ -59,14 +59,9 @@ class SearchView(object):
         except:
             pass
         params.update(dict(per_page=20, q="bag"))
-        import time
-        stime = time.time()
-        print "starting search"
         paginator = SearchPaginator(params, request)
         facets = utils.get_facets_links(request, paginator.results)
         sort_links = utils.get_sort_links(request)
-        print "got back search results in", time.time() - stime
-            
         # Get Context
         context = self.get_context(request, paginator, facets, sort_links, form)
         apply_extra_context(extra_context, context)
