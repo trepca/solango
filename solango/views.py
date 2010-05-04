@@ -53,6 +53,7 @@ class SearchView(object):
         form = form_class(request.GET)
         # Get all the get params
         # Overwrite those with anything you might of changed in the form.
+        params.update(dict(request.GET.items()))
         q = request.GET.get("q")
         if q:
             params['text'] = q
@@ -60,6 +61,8 @@ class SearchView(object):
         else:
             params['q'] = 'state:"P"'
         params.update(dict(per_page=40))
+        params.pop("x")
+        params.pop("y")
         paginator = SearchPaginator(params, request)
         facets = utils.get_facets_links(request, paginator.results)
         sort_links = utils.get_sort_links(request)
