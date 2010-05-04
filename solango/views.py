@@ -52,13 +52,14 @@ class SearchView(object):
         paginator = None
         form = form_class(request.GET)
         # Get all the get params
-        params.update(dict(request.GET.items()))
         # Overwrite those with anything you might of changed in the form.
-        try:
-            params.update(form.cleaned_data)
-        except:
-            pass
-        params.update(dict(per_page=40, q='state:"P"'))
+        q = request.GET.get("q")
+        if q:
+            params['text'] = q
+            params['state'] = '"P"'
+        else:
+            params['q'] = 'state:"P"'
+        params.update(dict(per_page=40))
         paginator = SearchPaginator(params, request)
         facets = utils.get_facets_links(request, paginator.results)
         sort_links = utils.get_sort_links(request)
