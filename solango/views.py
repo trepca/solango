@@ -56,7 +56,7 @@ class SearchView(object):
         params.update(dict(request.GET.items()))
         q = request.GET.get("q")
         if q:
-            params['text'] = q
+            params['text'] = "%s~"%q
             params['state'] = '"P"'
         else:
             params['q'] = 'state:"P"'
