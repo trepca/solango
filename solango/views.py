@@ -57,7 +57,7 @@ class SearchView(object):
         q = request.GET.get("q")
         if q:
             params.pop("q")
-            params['text'] = "%s~"%q
+            params['q'] = "text:%s^10 OR text:%s~"%(q,q)
             params['state'] = '"P"'
         else:
             params['q'] = 'state:"P"'
